@@ -2,7 +2,7 @@
 
 Welcome! This is a small, mostly-working Todo app with a React client and an Express API. It's intentionally left unfinished in a few ways — that's the point of the exercise. Please read this whole document before you start.
 
-**Live reference:** `<HOSTED_DEMO_URL>` — this is the fully-finished version of the app. Use it to see exactly how each feature (including drag-to-reorder, which this repo doesn't have yet) is supposed to behave. You will not have access to its source code.
+**Live reference:** [http://se001-asmt.skynippon.jp](http://se001-asmt.skynippon.jp) — this is the fully-finished version of the app. Use it to see exactly how each feature (including drag-to-reorder, which this repo doesn't have yet) is supposed to behave. You will not have access to its source code.
 
 ## What's already here
 
@@ -32,6 +32,8 @@ The reference app (the hosted demo) has two things this starter project doesn't:
 
 Pick whatever state management library and whatever drag-and-drop library you're comfortable with (or want to learn) — there's no required choice here. The server already has a working endpoint for persisting a new order: `PATCH /api/todos/reorder`, which accepts `{ items: [{ id, order }, ...] }` and returns the updated list. You're free to change it if you have a good reason, but you shouldn't need to.
 
+As part of your submission, include a **small presentation** comparing a few state management options and explaining why you chose the one you used (see [Submission](#submission)).
+
 ### 3. Add subtasks to a todo
 
 Add the ability to break a todo down into smaller subtasks — the checklist-within-a-checklist pattern most todo apps eventually grow. Concretely, a todo should be able to have zero or more subtasks, where each subtask has at least its own text and its own completed state.
@@ -49,14 +51,27 @@ We're deliberately not specifying the schema or the UI — that's the point of t
 - A state management library is in place for the todo list.
 - Drag-and-drop reordering works and persists (survives a page refresh).
 - Subtasks are implemented end to end (client + server), with your own data model, API, and UI design.
+- A short presentation comparing state management tools and explaining why you chose the one in your project.
 - The app still runs via `npm run dev` from a clean clone (see README.md).
 - No test suite is required.
 
 ## Submission
 
-1. Push your finished work to a **repository you own** (any host you like — GitHub, GitLab, etc.).
-2. Send us the repo URL.
+1. **Push your code** to a **repository you own** (any host you like — GitHub, GitLab, etc.).
+2. Email **skynippon.it@gmail.com** with:
+   - Your **repo URL**
+   - Your **hosted URL** (if you hosted a live version)
+   - Your **presentation** (PPT/PDF) comparing state management tools and why you chose the one used in your project
 3. Hosting a live version is optional and your choice of platform — it isn't required, but candidates who do include one stand out favorably in review, since it's a meaningful signal of the shipping ability this assignment is designed to test.
+
+### Presentation (required)
+
+Create a **small presentation** (a few slides is enough) that covers:
+
+- A short **comparison of different state management tools** (e.g. Redux, Zustand, Jotai, Recoil, React Context, MobX — pick the ones you considered)
+- **Why you chose** the tool you used in your project (trade-offs, fit for this app, familiarity, bundle size, DX, etc.)
+
+Attach the PPT (or PDF export) when you email your submission.
 
 ## Deadline
 
