@@ -35,16 +35,13 @@ The app mostly works, but three things are broken. We're deliberately not tellin
 
 None of these are one-character typos — each one requires actually reading the relevant code path (client → API call → server route → database) to understand what's really happening before you fix it. Please don't guess-and-check; we care about whether you can diagnose a bug, not just make a symptom go away.
 
-### 2. Reintroduce state management and drag-and-drop
+### 2. Reintroduce drag-and-drop
 
-The reference app (the hosted demo) has two things this starter project doesn't:
+The reference app (the hosted demo) has **drag-and-drop reordering** of todos, persisted to the server — this starter project doesn't have it yet.
 
-- **A state management library** for the todo list on the client (this starter just uses plain React `useState`, prop-drilled down).
-- **Drag-and-drop reordering** of todos, persisted to the server.
+Pick whatever drag-and-drop library you're comfortable with (or want to learn) — there's no required choice here. The server already has a working endpoint for persisting a new order: `PATCH /api/todos/reorder`, which accepts `{ items: [{ id, order }, ...] }` and returns the updated list. You're free to change it if you have a good reason, but you shouldn't need to.
 
-Pick whatever state management library and whatever drag-and-drop library you're comfortable with (or want to learn) — there's no required choice here. The server already has a working endpoint for persisting a new order: `PATCH /api/todos/reorder`, which accepts `{ items: [{ id, order }, ...] }` and returns the updated list. You're free to change it if you have a good reason, but you shouldn't need to.
-
-As part of your submission, include a **small presentation** comparing a few state management options and explaining why you chose the one you used (see [Submission](#submission)).
+As part of your submission, include a **small presentation** comparing a few drag-and-drop libraries and explaining why you chose the one you used (see [Submission](#submission)).
 
 ### 3. Add subtasks to a todo
 
@@ -60,10 +57,9 @@ We're deliberately not specifying the schema or the UI — that's the point of t
 ## What "done" looks like
 
 - All 3 bugs are fixed at the root cause.
-- A state management library is in place for the todo list.
 - Drag-and-drop reordering works and persists (survives a page refresh).
 - Subtasks are implemented end to end (client + server), with your own data model, API, and UI design.
-- A short presentation comparing state management tools and explaining why you chose the one in your project.
+- A short presentation comparing drag-and-drop libraries and explaining why you chose the one in your project.
 - The app still runs via `npm run dev` from a clean clone (see README.md).
 - No test suite is required.
 
@@ -73,15 +69,15 @@ We're deliberately not specifying the schema or the UI — that's the point of t
 2. Email **skynippon.it@gmail.com** with:
    - Your **repo URL**
    - Your **hosted URL** (if you hosted a live version)
-   - Your **presentation** (PPT/PDF) comparing state management tools and why you chose the one used in your project
+   - Your **presentation** (PPT/PDF) comparing drag-and-drop libraries and why you chose the one used in your project
 3. Hosting a live version is optional and your choice of platform — it isn't required, but candidates who do include one stand out favorably in review, since it's a meaningful signal of the shipping ability this assignment is designed to test.
 
 ### Presentation (required)
 
 Create a **small presentation** (a few slides is enough) that covers:
 
-- A short **comparison of different state management tools** (e.g. Redux, Zustand, Jotai, Recoil, React Context, MobX — pick the ones you considered)
-- **Why you chose** the tool you used in your project (trade-offs, fit for this app, familiarity, bundle size, DX, etc.)
+- A short **comparison of different drag-and-drop libraries** (e.g. `@dnd-kit`, `react-dnd`, `@hello-pangea/dnd`, `react-beautiful-dnd`, native HTML5 drag-and-drop, `react-sortablejs` — pick the ones you considered)
+- **Why you chose** the library you used in your project (trade-offs, fit for this app, accessibility/touch support, maintenance status, bundle size, DX, etc.)
 
 Attach the PPT (or PDF export) when you email your submission.
 
