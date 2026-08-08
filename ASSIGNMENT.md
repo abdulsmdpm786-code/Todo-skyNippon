@@ -4,6 +4,18 @@ Welcome! This is a small, mostly-working Todo app with a React client and an Exp
 
 **Live reference:** [http://se001-asmt.skynippon.jp](http://se001-asmt.skynippon.jp) — this is the fully-finished version of the app. Use it to see exactly how each feature (including drag-to-reorder, which this repo doesn't have yet) is supposed to behave. You will not have access to its source code.
 
+## Tools you can use
+
+You may use **any coding tools or AI tools** (editors, copilots, ChatGPT, Cursor, etc.) while working on this assignment. That is allowed and expected.
+
+What we evaluate is **your understanding**, not whether you typed every line by hand. Be ready to explain:
+
+- The **project** end to end (client, API, data flow)
+- The **tech stack / tools** you used and why
+- The **bugs** you found and **how / why** you fixed them at the root cause
+
+**Understanding the project is the most important thing.** Shipping code you cannot explain will not score well.
+
 ## What's already here
 
 - A React + TypeScript + Vite + Tailwind CSS client
