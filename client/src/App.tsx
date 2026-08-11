@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { arrayMove } from "@dnd-kit/sortable";
 import type { Priority, Todo } from "./types/todo";
 import * as api from "./api/todos";
 import { AddTodoForm } from "./components/AddTodoForm";
@@ -55,6 +56,63 @@ export default function App() {
     }
   };
 
+  const addSubtask = async (todoId: string, title: string) => {
+    try {
+      const updated = await api.createSubtask(todoId, title);
+      setTodos((prev) => prev.map((t) => (t.id === todoId ? updated : t)));
+    } catch (err) {
+      setError((err as Error).message);
+    }
+  };
+
+  const toggleSubtaskCompleted = async (todoId: string, subtaskId: string) => {
+    const todo = todos.find((t) => t.id === todoId);
+    if (!todo) return;
+    const subtask = todo.subtasks?.find((s) => s.id === subtaskId);
+    if (!subtask) return;
+    try {
+      const updated = await api.updateSubtask(todoId, subtaskId, {
+        completed: !subtask.completed,
+      });
+      setTodos((prev) => prev.map((t) => (t.id === todoId ? updated : t)));
+    } catch (err) {
+      setError((err as Error).message);
+    }
+  };
+
+  const deleteSubtask = async (todoId: string, subtaskId: string) => {
+    try {
+      const updated = await api.deleteSubtask(todoId, subtaskId);
+      setTodos((prev) => prev.map((t) => (t.id === todoId ? updated : t)));
+    } catch (err) {
+      setError((err as Error).message);
+    }
+  };
+
+  const handleReorder = async (activeId: string, overId: string) => {
+    const activeIndex = todos.findIndex((t) => t.id === activeId);
+    const overIndex = todos.findIndex((t) => t.id === overId);
+    if (activeIndex === -1 || overIndex === -1 || activeIndex === overIndex) return;
+
+    // Optimistically update frontend state
+    const originalTodos = [...todos];
+    const updated = arrayMove(todos, activeIndex, overIndex);
+    setTodos(updated);
+    setError(null);
+
+    try {
+      const items = updated.map((todo, idx) => ({
+        id: todo.id,
+        order: idx,
+      }));
+      await api.reorderTodos(items);
+    } catch (err) {
+      setError((err as Error).message);
+      // Rollback to original state if backend update fails
+      setTodos(originalTodos);
+    }
+  };
+
   const remaining = todos.filter((t) => !t.completed).length;
 
   return (
@@ -81,6 +139,10 @@ export default function App() {
             onToggle={toggleCompleted}
             onDelete={deleteTodo}
             onPriorityChange={setPriority}
+            onReorder={handleReorder}
+            onAddSubtask={addSubtask}
+            onToggleSubtask={toggleSubtaskCompleted}
+            onDeleteSubtask={deleteSubtask}
           />
         )}
       </div>

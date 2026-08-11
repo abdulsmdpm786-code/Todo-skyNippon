@@ -51,3 +51,27 @@ export function reorderTodos(items: { id: string; order: number }[]): Promise<To
     body: JSON.stringify({ items }),
   });
 }
+
+export function createSubtask(todoId: string, title: string): Promise<Todo> {
+  return request<Todo>(`/todos/${todoId}/subtasks`, {
+    method: "POST",
+    body: JSON.stringify({ title }),
+  });
+}
+
+export function updateSubtask(
+  todoId: string,
+  subtaskId: string,
+  patch: { title?: string; completed?: boolean }
+): Promise<Todo> {
+  return request<Todo>(`/todos/${todoId}/subtasks/${subtaskId}`, {
+    method: "PATCH",
+    body: JSON.stringify(patch),
+  });
+}
+
+export function deleteSubtask(todoId: string, subtaskId: string): Promise<Todo> {
+  return request<Todo>(`/todos/${todoId}/subtasks/${subtaskId}`, {
+    method: "DELETE",
+  });
+}

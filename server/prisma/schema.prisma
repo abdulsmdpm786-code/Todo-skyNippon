@@ -8,11 +8,22 @@ datasource db {
 }
 
 model Todo {
+  id        String    @id @default(uuid())
+  title     String
+  completed Boolean   @default(false)
+  priority  String    @default("medium") // "low" | "medium" | "high"
+  order     Int
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  subtasks  Subtask[]
+}
+
+model Subtask {
   id        String   @id @default(uuid())
   title     String
   completed Boolean  @default(false)
-  priority  String   @default("medium") // "low" | "medium" | "high"
-  order     Int
+  todoId    String
+  todo      Todo     @relation(fields: [todoId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
