@@ -34,20 +34,29 @@ todosRouter.post(
       return res.status(400).json({ error: "priority must be low, medium, or high" });
     }
 
-    const last = await prisma.todo.findFirst({ orderBy: { order: "desc" } });
-    const nextOrder = last ? last.order + 1 : 0;
+    // Compute the next order value and create the todo inside a single
+    // transaction so the read (find last order) and the write (create)
+    // happen atomically. Previously these were two separate queries, so
+    // two rapid POST requests could both read the same "last" todo before
+    // either had written — both would then compute the same nextOrder,
+    // producing a duplicate order value (or a failed insert on the second
+    // request, if order is constrained to be unique in the schema).
+    const todo = await prisma.$transaction(async (tx) => {
+      const last = await tx.todo.findFirst({ orderBy: { order: "desc" } });
+      const nextOrder = last ? last.order + 1 : 0;
 
-    const todo = await prisma.todo.create({
-      data: {
-        title: title.trim(),
-        priority: priority ?? "medium",
-        order: nextOrder,
-      },
-      include: {
-        subtasks: {
-          orderBy: { createdAt: "asc" },
+      return tx.todo.create({
+        data: {
+          title: title.trim(),
+          priority: priority ?? "medium",
+          order: nextOrder,
         },
-      },
+        include: {
+          subtasks: {
+            orderBy: { createdAt: "asc" },
+          },
+        },
+      });
     });
 
     res.status(201).json(todo);
